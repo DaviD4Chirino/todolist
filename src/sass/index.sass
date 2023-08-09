@@ -1,0 +1,621 @@
+$n: 10
+$general-amt: 1rem
+@use "mixins" as *
+
+//  General page changes ^
+.container
+    width: min(100% - 2rem,60rem)
+    margin-inline: auto
+// visibility
+.full
+    &-opacity
+        opacity: 100
+.no
+    &-opacity
+        opacity: 0
+//* Aspect ratio
+.aspect-ratio
+    &-1-2
+        aspect-ratio: 1 / 2
+    &-2-1
+        aspect-ratio: 2 / 1
+    &-1-1
+        aspect-ratio: 1 / 1
+
+//width, height and size
+.size
+    &-full
+        height: 100%
+        width: 100%
+        &-x
+            height: auto
+            width: 100%
+        &-y
+            height: 100%
+            width: auto
+        &-screen
+            height: 100dvh
+            width: 100dvw
+            &-x
+                height: auto
+                width: 100dvw
+            &-y
+                height: 100dvh
+                width: auto
+
+// cursor or mouse
+.pointer
+    cursor: pointer
+.cursor-default
+    cursor: unset
+
+// unset default styles
+.button
+    &-unset
+        cursor: pointer
+        color: unset
+        border: unset
+        background: unset
+.link
+    &-unset
+        color: unset
+        text-decoration: unset
+.list-unset
+    list-style: none
+    @include no-padding-or-margin
+    ul
+        @include no-padding-or-margin
+//spacing, margin, padding, grid-flex gap
+
+.no
+    &-margin
+        margin: 0
+        &-left,&-start
+            margin-left: 0
+        &-right, &-end
+            margin-right: 0
+        &-up
+            margin-up: 0
+        &-bottom
+            margin-bottom: 0
+
+    &-padding
+        padding: 0
+        &-left,&-start
+            padding-left: 0
+        &-right, &-end
+            padding-right: 0
+        &-up,&-top
+            padding-top: 0
+        &-bottom,&-down
+            padding-bottom: 0
+.padding
+    padding: $general-amt
+.margin
+    margin: $general-amt
+    &-top
+        margin-top: $general-amt
+    &-bottom
+        margin-bottom: $general-amt
+    &-start,&-left
+        margin-start: $general-amt
+    &-end,&-right
+        margin-end: $general-amt
+.gap,.gap-1
+    gap: $general-amt
+.gap
+    &-02
+        gap: $general-amt * 0.20
+    &-025
+        gap: $general-amt * 0.25
+    &-05
+        gap: $general-amt * 0.5
+@for $i from 0 through $n
+    $amt: $general-amt * $i
+    @if $i < 1
+        .padding
+            &-025
+                padding: $general-amt * 0.25
+            &-05
+                padding: $general-amt * 0.5
+            &-x
+                padding-inline: $general-amt
+                &-start,&-top
+                    padding-inline-start: $general-amt
+                    &-025
+                        padding-inline-end: $general-amt * 0.25
+                    &-05
+                        padding-inline-end: $general-amt * 0.5
+                &-end,&-bottom
+                    padding-inline-end: $general-amt
+                    &-025
+                        padding-inline-end: $general-amt * 0.25
+                    &-05
+                        padding-inline-end: $general-amt * 0.5
+                &-025
+                    padding-inline: $general-amt * 0.25
+                &-05
+                    padding-inline: $general-amt * 0.5
+
+            &-y
+                padding-block: $general-amt
+                &-start,&-top
+                    padding-block-start: $general-amt
+                    &-025
+                        padding-block-start: $general-amt * 0.25
+                    &-05
+                        padding-block-start: $general-amt * 0.5
+                &-end,&-bottom
+                    padding-block-end: $general-amt
+                    &-025
+                        padding-block-end: $general-amt * 0.25
+                    &-05
+                        padding-block-end: $general-amt * 0.5
+                &-025
+                    padding-block: $general-amt * 0.25
+                &-05
+                    padding-block: $general-amt * 0.5
+        .margin
+            &-x
+                margin-inline: $general-amt
+                &-start,&-top
+                    margin-inline-start: $general-amt
+                &-end,&-bottom
+                    margin-inline-end: $general-amt
+            &-y
+                margin-block: $general-amt
+                &-end,&-bottom
+                    margin-block-end: $general-amt
+                &-start,&-top
+                    margin-block-start: $general-amt
+
+        .gap
+
+            &-x
+                column-gap: $general-amt
+            &-y
+                row-gap: $general-amt
+    @else
+        .padding
+            &-x-#{$i}
+                padding-inline: $amt
+                &-start,&-top
+                    padding-inline-start: $general-amt
+                &-end,&-bottom
+                    padding-inline-end: $general-amt
+            &-y-#{$i}
+                padding-block: $amt
+                &-start,&-top
+                    padding-block-start: $general-amt
+                &-end,&-bottom
+                    padding-block-end: $general-amt
+        .margin
+            &-x-#{$i}
+                margin-inline: $amt
+            &-y-#{$i}
+                margin-block: $amt
+        .gap
+            &-#{$i}
+                gap: $amt
+            &-x-#{$i}
+                column-gap: $amt
+            &-y-#{$i}
+                row-gap: $amt
+
+.white-space
+    &-nowrap
+        white-space: nowrap
+.center
+    margin: auto
+    &-x
+        width-inline: auto
+    &-y
+        width-block: auto
+    &-absolute
+        position: absolute
+        top: 50%
+        left: 50%
+        transform: translate(-50%,-50%)
+
+//grid, flex and its behaviours
+.flex
+    display: flex
+    &-row
+        display: flex
+        flex-direction: row
+    &-column
+        display: flex
+        flex-direction: column
+    &-wrap
+        flex-wrap: wrap
+    &-1
+        >*
+            flex: 1
+    &-0
+        >*
+            flex: 0
+.grid
+    display: grid
+    &-all-cols
+        grid-column: 1/-1
+    &-all-rows
+        grid-row: 1/-1
+
+.self
+    &-flex
+        &-1
+            flex: 1
+        &-0
+            flex: 0
+
+.justify
+    &-content
+        &-center
+            justify-content: center
+        &-end
+            justify-content: end
+        &-start
+            justify-content: start
+        &-between
+            justify-content: space-between
+        &-around
+            justify-content: space-around
+        &-evenly
+            justify-content: space-evenly
+
+    &-items
+        &-center
+            justify-items: center
+        &-end
+            justify-items: end
+        &-start
+            justify-items: start
+        &-between
+            justify-items: space-between
+        &-around
+            justify-items: space-around
+    &-self
+        &-center
+            justify-self: center
+        &-end
+            justify-self: end
+        &-start
+            justify-self: start
+        &-between
+            justify-self: space-between
+        &-around
+            justify-self: space-around
+
+.align
+    &-content
+        &-center
+            align-content: center
+        &-end
+            align-content: end
+        &-start
+            align-content: start
+        &-between
+            align-content: space-between
+        &-around
+            align-content: space-around
+    &-items
+        &-center
+            align-items: center
+        &-end
+            align-items: end
+        &-start
+            align-items: start
+        &-between
+            align-items: space-between
+        &-around
+            align-content: space-around
+    &-self
+        &-center
+            align-self: center
+        &-end
+            align-self: end
+        &-start
+            align-self: start
+        &-between
+            align-self: space-between
+        &-around
+            align-self: space-around
+
+// text settings
+.text
+    &-container
+        padding-inline: 1rem
+        max-width: 75ch
+
+    &-end
+        text-align: end
+    &-center
+        text-align: center
+    &-start
+        text-align: start
+
+    &-upper
+        text-transform: uppercase
+    &-lower
+        text-transform: lowercase
+
+    &-elipsis
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+
+        &-multiline
+            display: -webkit-box
+            -webkit-box-orient: vertical
+            -webkit-line-clamp: 3
+            overflow: hidden
+            text-overflow: ellipsis
+
+.muted //* Opacity for a class that i can use everywere
+    opacity: .5
+.unmuted
+    opacity: 1
+
+@for $i from 1 through 5
+    @if $i != 3
+        .text-overflow-elipsis-multiline-#{$i}
+            $line-amt: $i
+            overflow: hidden
+            display: -webkit-box
+            -webkit-box-orient: vertical
+            -webkit-line-clamp: $line-amt
+            white-space: pre-wrap
+.bold
+    font-weight: bold
+.font
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+    font-size: 1rem
+    line-height: 2rem
+
+// Overflow and scroll
+.overflow
+    overflow: auto
+    &-auto
+        overflow: auto
+    &-hidden
+        overflow: hidden
+    &-scroll
+        overflow: scroll
+
+    &-y
+        &-auto
+            overflow-y: auto
+        &-scroll
+            overflow-y: scroll
+        &-hidden
+            overflow-y: hidden
+
+    &-x
+        &-auto
+            overflow-x: auto
+        &-scroll
+            overflow-x: scroll
+        &-hidden
+            overflow-x: hidden
+.scroll
+    &-snap,&-snap-mandatory,&-snap-both-mandatory
+        scroll-snap-type: both mandatory
+        >*
+            scroll-snap-align: start
+        &-center
+            scroll-snap-type: both mandatory
+            >*
+                scroll-snap-align: center
+
+            &-x
+                scroll-snap-type: x mandatory
+                >*
+                    scroll-snap-align: start
+                &-center
+                    scroll-snap-type: x mandatory
+                    >*
+                        scroll-snap-align: center
+            &-y
+                scroll-snap-type: y mandatory
+                >*
+                    scroll-snap-align: start
+                &-center
+                    scroll-snap-type: y mandatory
+                    >*
+                        scroll-snap-align: center
+
+    &-snap-proximity,&-snap-proximity-both
+        scroll-snap-type: both proximity
+        >*
+            scroll-snap-align: start
+        &-center
+            scroll-snap-type: both proximity
+            >*
+                scroll-snap-align: center
+
+            &-x
+                scroll-snap-type: x proximity
+                >*
+                    scroll-snap-align: start
+                &-center
+                    scroll-snap-type: x proximity
+                    >*
+                        scroll-snap-align: center
+            &-y
+                scroll-snap-type: y proximity
+                >*
+                    scroll-snap-align: start
+                &-center
+                    scroll-snap-type: y proximity
+                    >*
+                        scroll-snap-align: center
+
+// .icon
+//     font-size: 1.5rem
+
+// positioning
+.position
+    &-relative
+        position: relative
+    &-absolute
+        position: absolute
+
+        &-top
+            @include position($pos:absolute,$top: 0)
+
+        &-right
+            @include position($pos:absolute,$right: 0)
+
+        &-bottom
+            @include position($pos:absolute,$bottom: 0)
+
+        &-left
+            @include position($pos:absolute,$left: 0)
+
+        &-center
+            @include absolute-center()
+    &-sticky
+        position: sticky
+        top: 0
+    &-fixed
+        position: fixed
+        &-top
+            @include position($pos:fixed,$top: 0)
+
+        &-right
+            @include position($pos:fixed,$right: 0)
+
+        &-bottom
+            @include position($pos:fixed,$bottom: 0)
+
+        &-left
+            @include position($pos:fixed,$left: 0)
+
+.relative
+    position: relative
+.top
+    top: 0
+.left
+    left: 0
+.right
+    right: 0
+.bottom
+    bottom: 0
+
+// miscellanius
+.user-select-none
+    user-select: none
+
+.debug
+    &-red
+        border: 1px solid red
+    &-blue
+        border: 1px solid blue
+    &-yellow
+        border: 1px solid yellow
+
+// Animations
+@keyframes fade-in
+    from
+        opacity: 0
+    to
+        opacity: 1
+
+@keyframes fade-out
+    from
+        opacity: 1
+    to
+        opacity: 0
+
+@keyframes grow-in
+    from
+        transform: scale(.1)
+    to
+        transform: scale(1)
+
+@keyframes grow-out
+    from
+        transform: scale(1)
+    to
+        transform: scale(.1)
+//Animation classes
+.fade-in
+    animation:
+        name: fade-in
+        duration: .4s
+        timing-function: ease
+
+.fade-out
+    animation:
+        name: fade-out
+        duration: .4s
+        timing-function: ease
+.grow-in
+    animation:
+        name: grow-in
+        duration: .4s
+        timing-function: ease
+.grow-out
+    animation:
+        name: grow-out
+        duration: .4s
+        timing-function: ease
+// transition and animation duration
+@for $i from 1 through $n
+    .anim,.animation
+        @if $i * 0.1s != 1s
+            &-0#{$i}s
+                animation-duration: $i * 0.1s !important
+    .transition,.trans
+        &-0#{$i}
+            @if $i * 0.1s != 1s
+                transition-duration: $i * .1s !important
+
+@for $i from 1 through $n
+    .anim,.animation
+        &-#{$i}s
+            animation-duration: $i * 1s
+    .transition,.trans
+        &-#{$i}
+            transition-duration: $i * 1s
+
+//ease format 
+.ease
+    animation-timing-function: ease
+    &-in
+        animation-timing-function: ease-in
+    &-out
+        animation-timing-function: ease-out
+    &-in-out
+        animation-timing-function: ease-in-out
+
+.scroll
+    &-container
+        overflow: hidden
+        white-space: nowrap
+
+    &-text
+        // animation properties 
+        width: 100% !important
+
+        -moz-transform: translateX(100%)
+        -webkit-transform: translateX(100%)
+        transform: translateX(100%)
+
+        -moz-animation: scroll 20s linear infinite
+        -webkit-animation: scroll 20s linear infinite
+        animation: scroll 20s infinite linear
+
+// firefox
+@-moz-keyframes scroll
+  100%  
+    -moz-transform: translateX(-100)
+
+// chrome
+@-webkit-keyframes scroll
+  100%  
+    -webkit-transform: translateX(-100)
+
+@keyframes scroll
+    100%
+        transform: translateX(-100%)

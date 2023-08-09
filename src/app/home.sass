@@ -1,0 +1,30 @@
+@use "../sass/theme" as *
+
+.folder,.project,.step
+    box-shadow: -15px 15px 15px rgba(0, 0, 0, .3)
+#FAB
+    $padding: .8rem
+    $size: 3rem
+    position: fixed
+    right: $padding
+    bottom: $padding
+    margin: 0px !important
+    padding: 0px !important
+
+    width: $size
+    height: $size
+    >.icon
+        font-size: $size / 2
+
+#NavBar
+    position: absolute
+    top: 0
+    left: 0
+    z-index: 100
+
+    background-color: $background
+    width: 100%
+    #Content
+        display: flex
+        justify-content: end
+        align-content: center

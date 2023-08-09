@@ -1,0 +1,27 @@
+@use "../../sass/theme" as *
+.step
+    margin-inline-start: 2rem
+    background-color: lighten($background, 40%)
+    margin-block: .5rem
+    padding-bottom: .5rem
+    .content
+        color: $text
+    #TextEditor
+        .ql-bubble,a::before
+            z-index: 98
+        .ql-editor
+            background-color: lighten($background,5% )
+            margin-inline: 2rem
+
+            transition: outline-width .2s ease
+
+            &:focus
+                outline: 2px solid $accent
+
+                outline-offset: 2px
+@media (max-width: 60rem)
+    .step
+        margin-inline-start: 0px
+        #TextEditor
+            .ql-editor
+                margin-inline: 0px
