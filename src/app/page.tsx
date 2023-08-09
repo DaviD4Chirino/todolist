@@ -1,7 +1,7 @@
 "use client";
-import "./home.sass";
+import "../sass/home.sass";
 import Folder from "@/modules/Folder";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BsPlusLg as PlusI } from "react-icons/bs";
 import {
   AiOutlineDownload as DownloadI,
@@ -33,7 +33,7 @@ const dummyDatabase: Folder[] = [
   },
 ];
 
-export default function page() {
+export default function Page() {
   const [database, setDatabase] = useState<Folder[]>(
     getData("database") || dummyDatabase
   );

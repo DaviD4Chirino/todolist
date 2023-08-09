@@ -3,11 +3,11 @@ import "../sass/App.sass";
 import "../sass/index.sass";
 
 import { Inter } from "next/font/google";
-import MuiTheme from "./MuiTheme";
+import MuiTheme from "../components/MuiTheme";
 import { ConfirmProvider } from "material-ui-confirm";
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
+const metadata = {
   title: "To-do List - David Space",
   description: "A to do list made by david space",
 };
