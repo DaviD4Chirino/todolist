@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Tooltip, IconButton } from "@mui/material";
 import { AiFillDelete as DeleteI } from "react-icons/ai";

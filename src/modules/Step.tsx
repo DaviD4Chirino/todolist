@@ -1,3 +1,4 @@
+"use client";
 import "./sass/step.sass";
 import "react-quill/dist/quill.bubble.css";
 import Editor from "react-quill";

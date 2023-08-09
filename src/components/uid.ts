@@ -1,3 +1,4 @@
+"use client";
 /**
  * Generates a unique identifier.
  *

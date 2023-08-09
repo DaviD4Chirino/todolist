@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { Checkbox as MuiCheckbox } from "@mui/material";
 export default function Checkbox({

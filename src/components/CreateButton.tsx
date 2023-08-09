@@ -1,3 +1,4 @@
+"use client";
 import { IconButton, Tooltip } from "@mui/material";
 import { AiFillPlusCircle as PlusI } from "react-icons/ai";
 
