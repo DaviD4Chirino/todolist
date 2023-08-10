@@ -42,8 +42,3 @@ export default function CreateButton(props: {
     </Tooltip>
   );
 }
-{
-  /* <IconButton aria-label="add folder" onClick={handleCreateFolder}>
-  <PlusI className="icon" />
-</IconButton>; */
-}

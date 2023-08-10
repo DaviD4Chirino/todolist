@@ -1,7 +1,22 @@
 @use "../sass/theme" as *
-
+#Home
+    display: grid
+    gap: 1rem
+    margin-block: 2rem
 .folder,.project,.step
-    box-shadow: -15px 15px 15px rgba(0, 0, 0, .3)
+    outline: 1px solid $background
+    .title
+        margin-block: 1rem
+        &[contenteditable=false]
+            &::after
+                content: " \270E"
+                color: lighten($background, 20%)
+                opacity: .8
+    .content
+        display: grid
+        gap: 1rem
+.project .project
+    padding: 0
 #FAB
     $padding: .8rem
     $size: 3rem
@@ -28,3 +43,8 @@
         display: flex
         justify-content: end
         align-content: center
+@media (max-width:60rem)
+    .folder,.project,.step
+        padding-inline: 0 !important
+        padding-block: 1rem !important
+        margin: 0 !important

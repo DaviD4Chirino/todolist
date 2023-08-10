@@ -8,6 +8,7 @@ declare type Step = {
 declare type Project = {
   id: number;
   name: string;
+  projects: Project[];
   steps: Step[];
   done: boolean;
 };

@@ -44,8 +44,8 @@ export default function Folder({
           homeFunctions={homeFunctions}
           heading="h1"
         />
-        <DeleteButton delete="folder" id={id} homeFunctions={homeFunctions} />
         <CreateButton create="project" id={id} homeFunctions={homeFunctions} />
+        <DeleteButton delete="folder" id={id} homeFunctions={homeFunctions} />
         <Tooltip title="Collapse this folder">
           <IconButton aria-label="collapse" onClick={toggle}>
             {open ? <UpArrow /> : <DownArrow />}
@@ -57,6 +57,7 @@ export default function Folder({
           {projects.map((project) => (
             <Project
               key={project.id}
+              folderId={id}
               project={project}
               homeFunctions={homeFunctions}
             />

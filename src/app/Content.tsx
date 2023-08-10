@@ -20,6 +20,7 @@ const dummyDatabase: Folder[] = [
         id: uid() + 1,
         name: "Unnamed Project",
         done: false,
+        projects: [],
         steps: [
           {
             id: uid() + 2,
@@ -34,9 +35,7 @@ const dummyDatabase: Folder[] = [
 ];
 
 export default function Page() {
-  const [database, setDatabase] = useState<Folder[]>(
-    getData("database") || dummyDatabase
-  );
+  const [database, setDatabase] = useState<Folder[]>(dummyDatabase);
   useEffect(() => {
     console.log(database);
     storeData("database", database);
@@ -150,6 +149,7 @@ export default function Page() {
     const newProject: Project = {
       id: uid(),
       name: projectName || "Unnamed Project",
+      projects: [],
       steps: [],
       done: false,
     };

@@ -11,6 +11,7 @@ import Checkbox from "@/components/Checkbox";
 import TitleEditable from "@/components/TitleEditable";
 import React, { useState } from "react";
 import DeleteButton from "@/components/DeleteButton";
+import Project from "./Project";
 export default function Step({
   step,
   homeFunctions,

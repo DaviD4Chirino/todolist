@@ -11,12 +11,15 @@ import Step from "./Step";
 import CreateButton from "@/components/CreateButton";
 import DeleteButton from "@/components/DeleteButton";
 import { useState } from "react";
+import CreateProjectButton from "@/components/CreateProjectButton";
 export default function Project({
   project,
+  folderId,
   homeFunctions,
   ...props
 }: {
   project: Project;
+  folderId: number;
   homeFunctions: homeFunctions;
   props?: any;
 }) {
@@ -39,13 +42,15 @@ export default function Project({
           homeFunctions={homeFunctions}
           heading="h2"
         />
-        <DeleteButton
-          delete="project"
+        <CreateProjectButton id={folderId} homeFunctions={homeFunctions} />
+
+        <CreateButton
+          create="step"
           id={project.id}
           homeFunctions={homeFunctions}
         />
-        <CreateButton
-          create="step"
+        <DeleteButton
+          delete="project"
           id={project.id}
           homeFunctions={homeFunctions}
         />
@@ -67,6 +72,14 @@ export default function Project({
         <ul className="list-unset content">
           {project.steps.map((step, id) => (
             <Step key={step.id} step={step} homeFunctions={homeFunctions} />
+          ))}
+          {project.projects.map((project, id) => (
+            <Project
+              key={project.id}
+              folderId={folderId}
+              project={project}
+              homeFunctions={homeFunctions}
+            />
           ))}
         </ul>
       </Collapse>
