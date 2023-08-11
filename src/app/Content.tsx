@@ -1,7 +1,7 @@
 "use client";
 import "../sass/home.sass";
 import Folder from "@/modules/Folder";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { BsPlusLg as PlusI } from "react-icons/bs";
 import {
   AiOutlineDownload as DownloadI,
@@ -10,21 +10,22 @@ import {
 
 import uid from "@/components/uid";
 import { Fab, Tooltip, IconButton } from "@mui/material";
+import { AnimatePresence } from "framer-motion";
 const dummyDatabase: Folder[] = [
   {
     id: uid(),
-    name: "Unnamed Fps Game",
+    name: "Click here to edit this folder",
     done: false,
     projects: [
       {
         id: uid() + 1,
-        name: "Unnamed Project",
+        name: "Click here to edit this project",
         done: false,
         projects: [],
         steps: [
           {
             id: uid() + 2,
-            name: "Unnamed Step",
+            name: "Click here to edit this step",
             done: false,
             content: "",
           },
@@ -35,11 +36,55 @@ const dummyDatabase: Folder[] = [
 ];
 
 export default function Page() {
-  const [database, setDatabase] = useState<Folder[]>(dummyDatabase);
+  const [database, setDatabase] = useState<Folder[]>(
+    getData("database") || dummyDatabase
+  );
   useEffect(() => {
-    console.log(database);
+    // console.log(database);
     storeData("database", database);
   }, [database]);
+  function moveCompletedItemsToEnd(): void {
+    setDatabase((prevDatabase) => {
+      const updatedDatabase = [...prevDatabase];
+
+      updatedDatabase.sort((a, b) => {
+        if (a.done && !b.done) {
+          return 1;
+        } else if (!a.done && b.done) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+
+      updatedDatabase.forEach((folder) => {
+        folder.projects.sort((a, b) => {
+          if (a.done && !b.done) {
+            return 1;
+          } else if (!a.done && b.done) {
+            return -1;
+          } else {
+            return 0;
+          }
+        });
+
+        folder.projects.forEach((project) => {
+          project.steps.sort((a, b) => {
+            if (a.done && !b.done) {
+              return 1;
+            } else if (!a.done && b.done) {
+              return -1;
+            } else {
+              return 0;
+            }
+          });
+        });
+      });
+
+      return updatedDatabase;
+    });
+  }
+
   function getFolderById(folderId: number): Folder | undefined {
     return database.find((folder) => folder.id === folderId);
   }
@@ -139,8 +184,23 @@ export default function Page() {
   function createNewFolder(folderName?: string): void {
     const newFolder: Folder = {
       id: uid(),
-      name: folderName || "Unnamed Folder",
-      projects: [],
+      name: folderName || "Click here to edit this folder",
+      projects: [
+        {
+          id: uid(),
+          name: "Click here to edit this project",
+          done: false,
+          projects: [],
+          steps: [
+            {
+              id: uid(),
+              name: "Click here to edit this step",
+              done: false,
+              content: "",
+            },
+          ],
+        },
+      ],
       done: false,
     };
     setDatabase((prevDatabase) => [...prevDatabase, newFolder]);
@@ -148,7 +208,7 @@ export default function Page() {
   function createNewProject(folderId: number, projectName?: string): void {
     const newProject: Project = {
       id: uid(),
-      name: projectName || "Unnamed Project",
+      name: projectName || "Click here to edit this project",
       projects: [],
       steps: [],
       done: false,
@@ -164,7 +224,7 @@ export default function Page() {
   function createNewStep(projectId: number, stepName?: string): void {
     const newStep: Step = {
       id: uid(),
-      name: stepName || "Unnamed Step",
+      name: stepName || "Click here to edit this step",
       content: "",
       done: false,
     };
@@ -209,6 +269,7 @@ export default function Page() {
         folder.id === folderId ? { ...folder, done: done } : folder
       )
     );
+    moveCompletedItemsToEnd();
   }
 
   function setProjectAsDone(projectId: number, done: boolean): void {
@@ -220,6 +281,7 @@ export default function Page() {
         ),
       }))
     );
+    moveCompletedItemsToEnd();
   }
 
   function setStepAsDone(stepId: number, done: boolean): void {
@@ -238,6 +300,7 @@ export default function Page() {
       });
       return updatedDatabase;
     });
+    moveCompletedItemsToEnd();
   }
   function isFolderDone(folderId: number): boolean {
     const folder = database.find((folder) => folder.id === folderId);
@@ -312,7 +375,6 @@ export default function Page() {
         if (valid) {
           setDatabase(valid as Folder[]);
         }
-        // Do something with the file contents
       };
       reader.readAsText(file);
     }
@@ -330,6 +392,7 @@ export default function Page() {
                 accept=".json"
                 multiple
                 type="file"
+                name="downloadDatabase"
                 onChange={handleFileUpload}
               />
             </IconButton>
@@ -359,15 +422,18 @@ export default function Page() {
           <PlusI className="icon" />
         </Fab>
       </Tooltip>
-      {database.map((folder) => (
-        <Folder
-          key={folder.id}
-          id={folder.id}
-          projects={folder.projects}
-          name={folder.name}
-          homeFunctions={homeFunctions}
-        />
-      ))}
+      <AnimatePresence>
+        {database.map((folder) => (
+          <Folder
+            key={folder.id}
+            id={folder.id}
+            projects={folder.projects}
+            name={folder.name}
+            homeFunctions={homeFunctions}
+            transitionPosition
+          />
+        ))}
+      </AnimatePresence>
     </div>
   );
 }

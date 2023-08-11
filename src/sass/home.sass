@@ -3,15 +3,13 @@
     display: grid
     gap: 1rem
     margin-block: 2rem
+    overflow: hidden
 .folder,.project,.step
+    overflow: hidden
     outline: 1px solid $background
     .title
         margin-block: 1rem
-        &[contenteditable=false]
-            &::after
-                content: " \270E"
-                color: lighten($background, 20%)
-                opacity: .8
+
     .content
         display: grid
         gap: 1rem

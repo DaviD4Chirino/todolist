@@ -12,23 +12,46 @@ import CreateButton from "@/components/CreateButton";
 import DeleteButton from "@/components/DeleteButton";
 import { useState } from "react";
 import CreateProjectButton from "@/components/CreateProjectButton";
+import { motion, AnimatePresence, MotionProps } from "framer-motion";
 export default function Project({
   project,
   folderId,
   homeFunctions,
-  ...props
+  key,
+  ...MotionProps
 }: {
   project: Project;
   folderId: number;
   homeFunctions: homeFunctions;
-  props?: any;
-}) {
+  transitionPosition?: any;
+  key?: any;
+} & MotionProps) {
   const [open, setOpen] = useState(true);
   function toggle() {
     setOpen(!open);
   }
   return (
-    <li className="project" {...props}>
+    <motion.li
+      key={key}
+      className="project"
+      initial={{
+        x: -100,
+        opacity: 0,
+        height: 0,
+      }}
+      animate={{
+        x: 0,
+        height: "auto",
+        opacity: 1,
+      }}
+      exit={{
+        position: "relative",
+        x: 100,
+        height: 0,
+        opacity: 0,
+      }}
+      {...MotionProps}
+    >
       <header className="flex align-items-center">
         <Checkbox
           id={project.id}
@@ -70,19 +93,21 @@ export default function Project({
       </header>
       <Collapse in={open}>
         <ul className="list-unset content">
-          {project.steps.map((step, id) => (
-            <Step key={step.id} step={step} homeFunctions={homeFunctions} />
-          ))}
-          {project.projects.map((project, id) => (
-            <Project
-              key={project.id}
-              folderId={folderId}
-              project={project}
-              homeFunctions={homeFunctions}
-            />
-          ))}
+          <AnimatePresence>
+            {project.steps.map((step) => (
+              <Step key={step.id} step={step} homeFunctions={homeFunctions} />
+            ))}
+            {project.projects.map((project) => (
+              <Project
+                key={project.id}
+                folderId={folderId}
+                project={project}
+                homeFunctions={homeFunctions}
+              />
+            ))}
+          </AnimatePresence>
         </ul>
       </Collapse>
-    </li>
+    </motion.li>
   );
 }

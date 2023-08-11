@@ -11,7 +11,7 @@ import Checkbox from "@/components/Checkbox";
 import TitleEditable from "@/components/TitleEditable";
 import React, { useState } from "react";
 import DeleteButton from "@/components/DeleteButton";
-import Project from "./Project";
+import { motion } from "framer-motion";
 export default function Step({
   step,
   homeFunctions,
@@ -32,7 +32,26 @@ export default function Step({
     console.log(newValue);
   };
   return (
-    <li className="step" {...props}>
+    <motion.li
+      initial={{
+        x: -100,
+        opacity: 0,
+        height: 0,
+      }}
+      animate={{
+        x: 0,
+        height: "auto",
+        opacity: 1,
+      }}
+      exit={{
+        position: "relative",
+        x: 100,
+        height: 0,
+        opacity: 0,
+      }}
+      className="step"
+      {...props}
+    >
       <header className="flex align-items-center" role="button">
         <Checkbox owner="step" id={step.id} homeFunctions={homeFunctions} />
         <TitleEditable
@@ -71,6 +90,6 @@ export default function Step({
           />
         </div>
       </Collapse>
-    </li>
+    </motion.li>
   );
 }

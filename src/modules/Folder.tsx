@@ -1,5 +1,6 @@
 "use client";
 import "./sass/folder.sass";
+import { AnimatePresence, motion, MotionProps } from "framer-motion";
 import {
   BiSolidChevronDown as DownArrow,
   BiSolidChevronUp as UpArrow,
@@ -17,21 +18,33 @@ export default function Folder({
   name,
   id,
   homeFunctions,
+  key,
   ...props
 }: {
   projects: Project[];
   name: string;
   id: number;
   homeFunctions: homeFunctions;
-  props?: any;
-}) {
+  transitionPosition?: any;
+  key?: any;
+} & MotionProps) {
   const [open, setOpen] = useState(true);
   function toggle() {
     setOpen(!open);
   }
 
   return (
-    <section className="folder" {...props}>
+    <motion.article
+      className="folder"
+      exit={{
+        position: "relative",
+        x: 100,
+        height: 0,
+        opacity: 0,
+      }}
+      key={key}
+      {...props}
+    >
       <header
         role="button"
         className="flex justify-content-between align-items-center"
@@ -53,17 +66,19 @@ export default function Folder({
         </Tooltip>
       </header>
       <Collapse in={open}>
-        <ul className="list-unset content">
-          {projects.map((project) => (
-            <Project
-              key={project.id}
-              folderId={id}
-              project={project}
-              homeFunctions={homeFunctions}
-            />
-          ))}
+        <ul className="list-unset content overflow-hidden">
+          <AnimatePresence>
+            {projects.map((project) => (
+              <Project
+                key={project.id}
+                folderId={id}
+                project={project}
+                homeFunctions={homeFunctions}
+              />
+            ))}
+          </AnimatePresence>
         </ul>
       </Collapse>
-    </section>
+    </motion.article>
   );
 }
