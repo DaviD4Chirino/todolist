@@ -4,7 +4,7 @@ import {
   BiSolidChevronDown as DownArrow,
   BiSolidChevronUp as UpArrow,
 } from "react-icons/bi";
-import { IconButton, Collapse, Tooltip } from "@mui/material";
+import { IconButton, Collapse, Tooltip, useMediaQuery } from "@mui/material";
 import Checkbox from "@/components/Checkbox";
 import TitleEditable from "@/components/TitleEditable";
 import Step from "./Step";
@@ -65,31 +65,13 @@ export default function Project({
           homeFunctions={homeFunctions}
           heading="h2"
         />
-        <CreateProjectButton id={folderId} homeFunctions={homeFunctions} />
-
-        <CreateButton
-          create="step"
-          id={project.id}
+        <Icons
+          folderId={folderId}
           homeFunctions={homeFunctions}
+          project={project}
+          toggle={toggle}
+          open={open}
         />
-        <DeleteButton
-          delete="project"
-          id={project.id}
-          homeFunctions={homeFunctions}
-        />
-        <Tooltip title="Collapse this project">
-          <IconButton
-            aria-label="move"
-            className="justify-self-end"
-            onClick={toggle}
-          >
-            {open ? (
-              <UpArrow className="icon" />
-            ) : (
-              <DownArrow className="icon" />
-            )}
-          </IconButton>
-        </Tooltip>
       </header>
       <Collapse in={open}>
         <ul className="list-unset content">
@@ -109,5 +91,73 @@ export default function Project({
         </ul>
       </Collapse>
     </motion.li>
+  );
+}
+import React from "react";
+import MobileMenu from "@/components/MobileMenu";
+
+function Icons({
+  folderId,
+  homeFunctions,
+  project,
+  toggle,
+  open,
+}: {
+  folderId: number;
+  homeFunctions: homeFunctions;
+  project: Project;
+  toggle: () => void;
+  open: boolean;
+}) {
+  const mobile = useMediaQuery("(max-width: 600px)");
+  if (mobile) {
+    return (
+      <>
+        <MobileMenu
+          homeFunctions={homeFunctions}
+          createAndDelete="project"
+          id={project.id}
+          folderId={folderId}
+        />
+        <Tooltip title="Collapse this project">
+          <IconButton
+            aria-label="move"
+            className="justify-self-end"
+            onClick={toggle}
+          >
+            {open ? (
+              <UpArrow className="icon" />
+            ) : (
+              <DownArrow className="icon" />
+            )}
+          </IconButton>
+        </Tooltip>
+      </>
+    );
+  }
+  return (
+    <>
+      <CreateProjectButton id={folderId} homeFunctions={homeFunctions} />
+
+      <CreateButton
+        create="step"
+        id={project.id}
+        homeFunctions={homeFunctions}
+      />
+      <DeleteButton
+        delete="project"
+        id={project.id}
+        homeFunctions={homeFunctions}
+      />
+      <Tooltip title="Collapse this project">
+        <IconButton
+          aria-label="move"
+          className="justify-self-end"
+          onClick={toggle}
+        >
+          {open ? <UpArrow className="icon" /> : <DownArrow className="icon" />}
+        </IconButton>
+      </Tooltip>
+    </>
   );
 }
