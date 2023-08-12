@@ -79,14 +79,15 @@ export default function Project({
             {project.steps.map((step) => (
               <Step key={step.id} step={step} homeFunctions={homeFunctions} />
             ))}
-            {project.projects.map((project) => (
-              <Project
-                key={project.id}
-                folderId={folderId}
-                project={project}
-                homeFunctions={homeFunctions}
-              />
-            ))}
+            {project.projects &&
+              project.projects.map((project) => (
+                <Project
+                  key={project.id}
+                  folderId={folderId}
+                  project={project}
+                  homeFunctions={homeFunctions}
+                />
+              ))}
           </AnimatePresence>
         </ul>
       </Collapse>

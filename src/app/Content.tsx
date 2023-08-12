@@ -37,12 +37,15 @@ const dummyDatabase: Folder[] = [
 
 export default function Page() {
   const [database, setDatabase] = useState<Folder[]>(
-    getData("database") || dummyDatabase
+    isValidDatabase(getData("database") as Folder[])
+      ? getData("database") || dummyDatabase
+      : dummyDatabase
   );
   useEffect(() => {
     // console.log(database);
     storeData("database", database);
   }, [database]);
+
   function moveCompletedItemsToEnd(): void {
     setDatabase((prevDatabase) => {
       const updatedDatabase = [...prevDatabase];
@@ -509,11 +512,50 @@ function storeData(name: string, data: any) {
   localStorage.setItem(name, JSON.stringify(data));
 }
 
-function getData(key: string) {
-  if (typeof window === "undefined" || typeof document === "undefined") {
-    return "";
+function getData(key: string): Folder[] | undefined {
+  const data = localStorage.getItem(key);
+  if (data) {
+    const parsedData = JSON.parse(data) as Folder[];
+    if (isValidDatabase(parsedData)) {
+      return parsedData;
+    }
   }
-  return localStorage.getItem(key)
-    ? JSON.parse(localStorage.getItem(key) as string)
-    : null;
+  return dummyDatabase;
+}
+
+function isValidDatabase(database: Folder[]): boolean {
+  const validFolder = database.every((folder) => {
+    return (
+      folder.hasOwnProperty("id") &&
+      folder.hasOwnProperty("name") &&
+      folder.hasOwnProperty("done") &&
+      folder.hasOwnProperty("projects")
+    );
+  });
+
+  const validProjects = database.every((folder) => {
+    return folder.projects.every((project) => {
+      return (
+        project.hasOwnProperty("id") &&
+        project.hasOwnProperty("name") &&
+        project.hasOwnProperty("steps") &&
+        project.hasOwnProperty("done") &&
+        project.hasOwnProperty("projects")
+      );
+    });
+  });
+  const validSteps = database.every((folder) => {
+    return folder.projects.every((project) => {
+      return project.steps.every((step) => {
+        return (
+          step.hasOwnProperty("id") &&
+          step.hasOwnProperty("name") &&
+          step.hasOwnProperty("content") &&
+          step.hasOwnProperty("done")
+        );
+      });
+    });
+  });
+
+  return validFolder && validProjects && validSteps;
 }
