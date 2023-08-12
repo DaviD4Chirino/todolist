@@ -6,17 +6,11 @@ import CreateButton from "./CreateButton";
 import DeleteButton from "./DeleteButton";
 import CreateProjectButton from "./CreateProjectButton";
 
-export default function MobileMenu({
-  homeFunctions,
-  createAndDelete,
-
-  folderId,
-  id,
-}: {
+export default function MobileMenu(props: {
   homeFunctions: homeFunctions;
-  createAndDelete: "project" | "folder" | "step";
+  create: "project" | "folder" | "step";
+  delete: "project" | "folder" | "step";
   /**It only uses it on Project */
-  folderId?: number;
   id: number;
 }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -49,21 +43,18 @@ export default function MobileMenu({
         }}
       >
         <MenuItem>
-          <CreateButton create="step" id={id} homeFunctions={homeFunctions} />
+          <CreateButton
+            create={props.create}
+            id={props.id}
+            homeFunctions={props.homeFunctions}
+          />
         </MenuItem>
-        <MenuItem>
-          {createAndDelete === "project" && (
-            <CreateProjectButton
-              id={folderId as number}
-              homeFunctions={homeFunctions}
-            />
-          )}
-        </MenuItem>
+
         <MenuItem>
           <DeleteButton
-            delete="project"
-            id={id}
-            homeFunctions={homeFunctions}
+            delete={props.delete}
+            id={props.id}
+            homeFunctions={props.homeFunctions}
           />
         </MenuItem>
       </Menu>

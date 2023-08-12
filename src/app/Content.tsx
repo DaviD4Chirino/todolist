@@ -224,6 +224,25 @@ export default function Page() {
       )
     );
   }
+  function addNewProject(projectId: number, projectName?: string): void {
+    const newProject: Project = {
+      id: uid(),
+      name: projectName || "Click here to edit this project",
+      projects: [],
+      steps: [],
+      done: false,
+    };
+    setDatabase((prevDatabase) =>
+      prevDatabase.map((folder) => ({
+        ...folder,
+        projects: folder.projects.map((project) =>
+          project.id === projectId
+            ? { ...project, projects: [...project.projects, newProject] }
+            : project
+        ),
+      }))
+    );
+  }
   function createNewStep(projectId: number, stepName?: string): void {
     const newStep: Step = {
       id: uid(),
@@ -339,6 +358,7 @@ export default function Page() {
     updateStepName,
     createNewFolder,
     createNewProject,
+    addNewProject,
     createNewStep,
     deleteFolderById,
     deleteProjectById,

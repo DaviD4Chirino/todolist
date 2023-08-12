@@ -34,6 +34,7 @@ declare type homeFunctions = {
   updateStepName: (stepId: number, newName: string) => void;
   createNewFolder: (folderName?: string) => void;
   createNewProject: (folderId: number, projectName?: string) => void;
+  addNewProject: (projectId: number, projectName?: string) => void;
   createNewStep: (projectId: number, stepName?: string) => void;
   deleteFolderById: (folderId: number) => void;
   deleteProjectById: (projectId: number) => void;

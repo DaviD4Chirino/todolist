@@ -116,9 +116,9 @@ function Icons({
       <>
         <MobileMenu
           homeFunctions={homeFunctions}
-          createAndDelete="project"
+          create="step"
+          delete="project"
           id={project.id}
-          folderId={folderId}
         />
         <Tooltip title="Collapse this project">
           <IconButton
@@ -138,7 +138,7 @@ function Icons({
   }
   return (
     <>
-      <CreateProjectButton id={folderId} homeFunctions={homeFunctions} />
+      {/* <CreateProjectButton id={folderId} homeFunctions={homeFunctions} /> */}
 
       <CreateButton
         create="step"

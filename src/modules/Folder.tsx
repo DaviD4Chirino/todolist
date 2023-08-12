@@ -5,7 +5,7 @@ import {
   BiSolidChevronDown as DownArrow,
   BiSolidChevronUp as UpArrow,
 } from "react-icons/bi";
-import { IconButton, Collapse, Tooltip } from "@mui/material";
+import { IconButton, Collapse, Tooltip, useMediaQuery } from "@mui/material";
 
 import CreateButton from "@/components/CreateButton";
 import Checkbox from "@/components/Checkbox";
@@ -13,6 +13,7 @@ import Project from "./Project";
 import TitleEditable from "@/components/TitleEditable";
 import DeleteButton from "@/components/DeleteButton";
 import { useState } from "react";
+import MobileMenu from "@/components/MobileMenu";
 export default function Folder({
   projects,
   name,
@@ -29,6 +30,8 @@ export default function Folder({
   key?: any;
 } & MotionProps) {
   const [open, setOpen] = useState(true);
+  const mobile = useMediaQuery("(max-width: 600px)");
+
   function toggle() {
     setOpen(!open);
   }
@@ -57,8 +60,27 @@ export default function Folder({
           homeFunctions={homeFunctions}
           heading="h1"
         />
-        <CreateButton create="project" id={id} homeFunctions={homeFunctions} />
-        <DeleteButton delete="folder" id={id} homeFunctions={homeFunctions} />
+        {mobile ? (
+          <MobileMenu
+            delete="folder"
+            create="project"
+            id={id}
+            homeFunctions={homeFunctions}
+          />
+        ) : (
+          <>
+            <CreateButton
+              create="project"
+              id={id}
+              homeFunctions={homeFunctions}
+            />
+            <DeleteButton
+              delete="folder"
+              id={id}
+              homeFunctions={homeFunctions}
+            />
+          </>
+        )}
         <Tooltip title="Collapse this folder">
           <IconButton aria-label="collapse" onClick={toggle}>
             {open ? <UpArrow /> : <DownArrow />}
